@@ -49,6 +49,8 @@ cabal-version:       >=1.22
 library
   -- Modules exported by the library.
   exposed-modules:     Famous.Core.FamousEngine
+                     , Famous.Core.Node
+                     , Famous.Core.Scene
   
   -- Modules included in this library but not exported.
   -- other-modules:       
