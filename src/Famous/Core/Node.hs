@@ -114,3 +114,76 @@ foreign import javascript safe "($1).getRenderSize()"
 
 getRenderSize :: Node a -> IO (Maybe Size)
 getRenderSize = fromJSRef . fms_getRenderSize
+
+
+-- | Retrieves all children of the current node.
+foreign import javascript unsafe "($1).getChildren()"
+  fms_getChildren :: Node a -> JSRef b
+
+getChildren :: Node a -> IO (Maybe [Node ()])
+getChildren = fromJSRef . fms_getChildren
+
+
+-- | Retrieves the parent of the current node. Unmounted nodes do not have a parent node.
+foreign import javascript unsafe "($1).getParent()"
+  fms_getParent :: Node a -> JSRef b
+
+getParent :: Node a -> IO (Maybe (Node ()))
+getParent = fromJSRef . fms_getParent
+
+-- | Checks if the node is mounted. Unmounted nodes are detached from the scene graph.
+foreign import javascript safe "($1).isMounted()"
+  fms_isMounted :: Node a -> Bool
+
+isMounted = fms_isMounted
+
+-- | Checks if the node is visible ("shown").
+foreign import javascript safe "($1).isShown()"
+  fms_isShown :: Node a -> Bool
+
+isShown = fms_isShown
+
+-- | Determines the node's relative opacity.
+--   The opacity needs to be within [0, 1], where 0 indicates a completely transparent,
+--   therefore invisible node, whereas an opacity of 1 means the node is completely solid.
+foreign import javascript safe "($1).getOpacity()"
+  fms_getOpacity :: Node a -> Double
+
+getOpacity = fms_getOpacity
+
+
+-- | Determines the node's previously set mount point.
+foreign import javascript safe "($1).getMountPoint()"
+  fms_getMountPoint :: Node a -> JSRef b
+
+getMountPoint :: Node a -> IO (Maybe [Double])
+getMountPoint = fromJSRef . fms_getMountPoint
+
+-- | Determines the node's previously set align.
+foreign import javascript safe "($1).getAlign()"
+  fms_getAlign :: Node a -> JSRef b
+
+getAlign :: Node a -> IO (Maybe [Double])
+getAlign = fromJSRef . fms_getAlign
+
+-- | Determines the node's previously set origin.
+foreign import javascript safe "($1).getOrigin()"
+  fms_getOrigin :: Node a -> JSRef b
+
+getOrigin :: Node a -> IO (Maybe [Double])
+getOrigin = fromJSRef . fms_getOrigin
+
+-- | Determines the node's previously set position.
+foreign import javascript safe "($1).getPosition()"
+  fms_getPosition :: Node a -> JSRef b
+
+getPosition :: Node a -> IO (Maybe [Double])
+getPosition = fromJSRef . fms_getPosition
+
+
+-- | Returns the node's current rotation
+foreign import javascript safe "($1).getRotation()"
+  fms_getRotation :: Node a -> JSRef b
+
+getRotation :: Node a -> IO (Maybe [Double])
+getRotation = fromJSRef . fms_getRotation
