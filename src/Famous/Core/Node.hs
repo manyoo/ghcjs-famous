@@ -26,9 +26,14 @@ hideNode = fms_hideNode
 
 -- | add a child node
 foreign import javascript unsafe "($2).addChild($1)"
-  fms_addChild :: Node a -> Node b -> IO ()
+  fms_addChild :: Node a -> Node b -> IO (Node a)
 
-addChild = fms_addChild
+foreign import javascript unsafe "($1).addChild()"
+  fms_addNewChild :: Node a -> IO (Node b)
+
+addChild :: Maybe (Node a) -> Node b -> IO (Node a)
+addChild Nothing p  = fms_addNewChild p
+addChild (Just c) p = fms_addChild c p
 
 -- | remove a child node
 foreign import javascript unsafe "($2).removeChild($1)"
@@ -39,25 +44,25 @@ removeChild = fms_removeChild
 
 -- | set the align value of a node
 foreign import javascript unsafe "($4).setAlign($1, $2, $3)"
-  fms_setAlign :: Int -> Int -> Int -> Node a -> IO ()
+  fms_setAlign :: Double -> Double -> Double -> Node a -> IO ()
 
 setAlign = fms_setAlign
 
 -- | Sets the mount point value of the node. Will call onMountPointChange on all of the node's components.
 foreign import javascript unsafe "($4).setMountPoint($1, $2, $3)"
-  fms_setMountPoint :: Int -> Int -> Int -> Node a -> IO ()
+  fms_setMountPoint :: Double -> Double -> Double -> Node a -> IO ()
 
 setMountPoint = fms_setMountPoint
 
 -- | Sets the origin value of the node. Will call onOriginChange on all of the node's components.
 foreign import javascript unsafe "($4).setOrigin($1, $2, $3)"
-  fms_setOrigin :: Int -> Int -> Int -> Node a -> IO ()
+  fms_setOrigin :: Double -> Double -> Double -> Node a -> IO ()
 
 setOrigin = fms_setOrigin
 
 -- | Sets the position of the node. Will call onPositionChange on all of the node's components.
 foreign import javascript unsafe "($4).setPosition($1, $2, $3)"
-  fms_setPosition :: Int -> Int -> Int -> Node a -> IO ()
+  fms_setPosition :: Double -> Double -> Double -> Node a -> IO ()
 
 setPosition = fms_setPosition
 
