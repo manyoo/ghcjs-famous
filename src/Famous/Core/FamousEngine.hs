@@ -1,6 +1,10 @@
 {-# LANGUAGE JavaScriptFFI #-}
 module Famous.Core.FamousEngine (
-  FamousEngine, newEngine, engineInit
+  FamousEngine,
+  newEngine,
+  famousEngine,
+  engineInit,
+  createScene
   ) where
 
 import GHCJS.Foreign

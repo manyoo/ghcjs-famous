@@ -16,7 +16,7 @@ data DOMElement_ a
 type DOMElement a = JSRef (DOMElement_ a)
 
 -- | create a new DOMElement
-foreign import javascript unsafe "new DOMElement($1, $2)"
+foreign import javascript unsafe "new famous.domRenderables.DOMElement($1, $2)"
   fms_newDomElement :: Node a -> JSRef b -> IO (DOMElement ())
 
 newDomElement :: (ToJSString k, ToJSRef v) => Node a -> Options k v -> IO (DOMElement ())
