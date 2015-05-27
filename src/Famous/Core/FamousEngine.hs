@@ -39,6 +39,11 @@ engineInit e opt = fms_engineInit e =<< toJSRef opt
 
 -- | Creates a scene under which a scene graph could be built.
 foreign import javascript unsafe "($1).createScene()"
-  fms_createScene :: FamousEngine -> IO (Scene ())
+  fms_createNewScene :: FamousEngine -> IO (Scene ())
 
-createScene = fms_createScene
+foreign import javascript unsafe "($2).createScene($1)"
+  fms_createScene :: JSString -> FamousEngine -> IO (Scene ())
+
+createScene :: (ToJSString a) => Maybe a -> FamousEngine -> IO (Scene ())
+createScene Nothing e = fms_createNewScene e
+createScene (Just s) e = fms_createScene (toJSString s) e
