@@ -51,6 +51,7 @@ library
   exposed-modules:     Famous.Core.FamousEngine
                      , Famous.Core.Node
                      , Famous.Core.Scene
+                     , Famous.DOM.DOMElement
   
   -- Modules included in this library but not exported.
   -- other-modules:       
