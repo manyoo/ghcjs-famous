@@ -54,6 +54,7 @@ library
                      , Famous.Core.Scene
                      , Famous.DOM.DOMElement
                      , Famous.Components.Align
+                     , Famous.Components.Camera
                      , Famous.Components.MountPoint
                      , Famous.Components.Opacity
                      , Famous.Components.Origin
