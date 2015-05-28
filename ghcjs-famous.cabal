@@ -53,6 +53,14 @@ library
                      , Famous.Core.Node
                      , Famous.Core.Scene
                      , Famous.DOM.DOMElement
+                     , Famous.Components.Align
+                     , Famous.Components.MountPoint
+                     , Famous.Components.Opacity
+                     , Famous.Components.Origin
+                     , Famous.Components.Position
+                     , Famous.Components.Rotation
+                     , Famous.Components.Scale
+                     , Famous.Components.Size
   
   -- Modules included in this library but not exported.
   -- other-modules:       

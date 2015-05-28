@@ -80,13 +80,13 @@ foreign import javascript unsafe "($2).setOpacity($1)"
 
 setOpacity = fms_setOpacity
 
-type Size = [Double]
+type NodeSize = [Double]
 
 -- | Returns the external size of the node
 foreign import javascript safe "($1).getSize()"
   fms_getSize :: Node a -> JSRef b
 
-getSize :: Node a -> IO (Maybe Size)
+getSize :: Node a -> IO (Maybe NodeSize)
 getSize = fromJSRef . fms_getSize
 
 
@@ -94,30 +94,30 @@ getSize = fromJSRef . fms_getSize
 foreign import javascript safe "($1).getProportationalSize()"
   fms_getProportionalSize :: Node a -> JSRef b
 
-getProportionalSize :: Node a -> IO (Maybe Size)
+getProportionalSize :: Node a -> IO (Maybe NodeSize)
 getProportionalSize = fromJSRef . fms_getProportionalSize
 
 -- | Returns the differential size of the node
 foreign import javascript safe "($1).getDifferentialSize()"
   fms_getDifferentialSize :: Node a -> JSRef b
 
-getDifferentialSize :: Node a -> IO (Maybe Size)
+getDifferentialSize :: Node a -> IO (Maybe NodeSize)
 getDifferentialSize = fromJSRef . fms_getDifferentialSize
 
 -- | Returns the absolute size of the node
 foreign import javascript safe "($1).getAbsoluteSize()"
   fms_getAbsoluteSize :: Node a -> JSRef b
 
-getAbsoluteSize :: Node a -> IO (Maybe Size)
+getAbsoluteSize :: Node a -> IO (Maybe NodeSize)
 getAbsoluteSize = fromJSRef . fms_getAbsoluteSize
 
--- | Returns the current Render Size of the node.
+-- | Returns the current Render NodeSize of the node.
 -- Note that the render size is asynchronous (will always be one frame behind)
 -- and needs to be explicitely calculated by setting the proper size mode.
 foreign import javascript safe "($1).getRenderSize()"
   fms_getRenderSize :: Node a -> JSRef b
 
-getRenderSize :: Node a -> IO (Maybe Size)
+getRenderSize :: Node a -> IO (Maybe NodeSize)
 getRenderSize = fromJSRef . fms_getRenderSize
 
 
@@ -152,9 +152,9 @@ isShown = fms_isShown
 --   The opacity needs to be within [0, 1], where 0 indicates a completely transparent,
 --   therefore invisible node, whereas an opacity of 1 means the node is completely solid.
 foreign import javascript safe "($1).getOpacity()"
-  fms_getOpacity :: Node a -> Double
+  fms_getNodeOpacity :: Node a -> Double
 
-getOpacity = fms_getOpacity
+getOpacity = fms_getNodeOpacity
 
 
 -- | Determines the node's previously set mount point.
