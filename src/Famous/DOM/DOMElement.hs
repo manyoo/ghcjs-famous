@@ -77,5 +77,5 @@ foreign import javascript unsafe "($3).on($1, $2)"
 
 onEvent :: (ToJSString s, FromJSRef a) => s -> (a -> IO ()) -> DOMElement b -> IO ()
 onEvent eventType handler dom = do let f' x = fromJSRef x >>= handler . fromJust
-                                   func <- syncCallback1 NeverRetain True f'
+                                   func <- syncCallback1 AlwaysRetain True f'
                                    fms_onEvent (toJSString eventType) func dom
