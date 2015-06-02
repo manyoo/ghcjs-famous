@@ -5,6 +5,8 @@ import GHCJS.Foreign
 import GHCJS.Types
 import GHCJS.Marshal
 
+import Famous.Core.Basic
+
 data Node_ a
 
 type Node a = JSRef (Node_ a)
@@ -79,6 +81,18 @@ foreign import javascript unsafe "($2).setOpacity($1)"
   fms_setOpacity :: Double -> Node a -> IO ()
 
 setOpacity = fms_setOpacity
+
+-- | Sets the size mode being used for determining the nodes final width, height and depth
+foreign import javascript unsafe "($4).setSizeMode($1, $2, $3)"
+  fms_setSizeMode :: JSRef a -> JSRef a -> JSRef a -> Node b -> IO ()
+
+setSizeMode :: SizeMode -> SizeMode -> SizeMode -> Node a -> IO ()
+setSizeMode x y z n = do xRef <- sm2Ref x
+                         yRef <- sm2Ref y
+                         zRef <- sm2Ref z
+                         fms_setSizeMode xRef yRef zRef n
+  where sm2Ref = toJSRef . sizeMode2Text
+
 
 type NodeSize = [Double]
 
