@@ -62,6 +62,7 @@ library
                      , Famous.Components.Rotation
                      , Famous.Components.Scale
                      , Famous.Components.Size
+                     , Famous.Components.GestureHandler
                      , Famous.Transitions.Curves
                      
   -- Modules included in this library but not exported.
