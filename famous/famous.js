@@ -10501,8 +10501,8 @@ var Mat33 = require('../math/Mat33');
 var ObjectManager = require('../utilities/ObjectManager');
 ObjectManager.register('DynamicGeometry', DynamicGeometry);
 ObjectManager.register('DynamicGeometryFeature', DynamicGeometryFeature);
-var oMRequestDynamicGeometryFeature = ObjectManager.requestDynamicGeometryFeature;
-var oMFreeDynamicGeometryFeature = ObjectManager.freeDynamicGeometryFeature;
+var oMRequestDynamicGeometryFeature = ObjectManager['requestDynamicGeometryFeature'];
+var oMFreeDynamicGeometryFeature = ObjectManager['freeDynamicGeometryFeature'];
 
 var TRIPLE_REGISTER = new Vec3();
 
@@ -13139,7 +13139,7 @@ var ContactManifoldTable = require('./collision/ContactManifold');
 
 var ObjectManager = require('../../utilities/ObjectManager');
 ObjectManager.register('CollisionData', CollisionData);
-var oMRequestCollisionData = ObjectManager.requestCollisionData;
+var oMRequestCollisionData = ObjectManager['requestCollisionData'];
 
 var VEC_REGISTER = new Vec3();
 
@@ -14728,10 +14728,10 @@ var ObjectManager = require('../../../utilities/ObjectManager');
 
 ObjectManager.register('Manifold', Manifold);
 ObjectManager.register('Contact', Contact);
-var oMRequestManifold = ObjectManager.requestManifold;
-var oMRequestContact = ObjectManager.requestContact;
-var oMFreeManifold = ObjectManager.freeManifold;
-var oMFreeContact = ObjectManager.freeContact;
+var oMRequestManifold = ObjectManager['requestManifold'];
+var oMRequestContact = ObjectManager['requestContact'];
+var oMFreeManifold = ObjectManager['freeManifold'];
+var oMFreeContact = ObjectManager['freeContact'];
 
 /**
  * Helper function to clamp a value to a given range.
@@ -14987,7 +14987,9 @@ Manifold.prototype.removeContact = function removeContact(contact, index) {
     this.contacts[index] = null;
     this.numContacts--;
 
-    ObjectManager.freeCollisionData(contact.data);
+    var f = ObjectManager['freeCollisionData'];
+    f(contact.data);
+    
     contact.data = null;
     oMFreeContact(contact);
 };
@@ -15326,11 +15328,11 @@ var Vec3 = require('../../../math/Vec3');
 var ObjectManager = require('../../../utilities/ObjectManager');
 
 ObjectManager.register('GJK_EPASupportPoint', GJK_EPASupportPoint);
-var oMRequestGJK_EPASupportPoint = ObjectManager.requestGJK_EPASupportPoint;
-var oMRequestDynamicGeometry = ObjectManager.requestDynamicGeometry;
-var oMFreeGJK_EPASupportPoint = ObjectManager.freeGJK_EPASupportPoint;
-var oMFreeDynamicGeometry = ObjectManager.freeDynamicGeometry;
-var oMFreeDynamicGeometryFeature = ObjectManager.freeDynamicGeometryFeature;
+var oMRequestGJK_EPASupportPoint = ObjectManager['requestGJK_EPASupportPoint'];
+var oMRequestDynamicGeometry = ObjectManager['requestDynamicGeometry'];
+var oMFreeGJK_EPASupportPoint = ObjectManager['freeGJK_EPASupportPoint'];
+var oMFreeDynamicGeometry = ObjectManager['freeDynamicGeometry'];
+var oMFreeDynamicGeometryFeature = ObjectManager['freeDynamicGeometryFeature'];
 
 var P_REGISTER = new Vec3();
 var V0_REGISTER = new Vec3();
@@ -15508,7 +15510,8 @@ function epa(body1, body2, polytope) {
             freeGJK_EPADynamicGeometry(polytope);
             oMFreeGJK_EPASupportPoint(point);
 
-            return ObjectManager.requestCollisionData().reset(closest.distance, direction, body1Contact, body2Contact, localBody1Contact, localBody2Contact);
+            var f = ObjectManager['requestCollisionData'];
+            return f().reset(closest.distance, direction, body1Contact, body2Contact, localBody1Contact, localBody2Contact);
         }
         else {
             polytope.addVertex(point);
