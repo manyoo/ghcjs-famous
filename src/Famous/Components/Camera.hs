@@ -15,7 +15,7 @@ type Camera a = JSRef (Camera_ a)
 --   the user to set the type of projection, the focal depth, and other
 --   properties to adjust the way the scenes are rendered.
 
-foreign import javascript unsafe "new famous.components.Camera($1)"
+foreign import javascript unsafe "new window.famous.components.Camera($1)"
   fms_addCamera :: Node a -> IO (Camera ())
 
 addCamera = fms_addCamera

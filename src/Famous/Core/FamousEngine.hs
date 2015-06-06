@@ -22,13 +22,13 @@ type FamousEngine = JSRef Engine_
 
 
 -- | js API for creating new engine
-foreign import javascript unsafe "new famous.core.FamousEngine()"
+foreign import javascript unsafe "new window.famous.core.FamousEngine()"
   fms_newEngine :: IO FamousEngine
 
 newEngine = fms_newEngine
 
 -- | js APi for getting the famousEngine
-foreign import javascript safe "famous.core.FamousEngine"
+foreign import javascript safe "window.famous.core.FamousEngine"
   fms_famousEngine :: IO FamousEngine
 
 famousEngine = fms_famousEngine

@@ -13,7 +13,7 @@ type Align a = Position (Align_ a)
 
 
 -- | Add a new Align component to a node
-foreign import javascript unsafe "new famous.components.Align($1)"
+foreign import javascript unsafe "new window.famous.components.Align($1)"
   fms_addAlign :: Node a -> IO (Align ())
 
 addAlign = fms_addAlign

@@ -12,7 +12,7 @@ data MountPoint_ a
 type MountPoint a = Position (MountPoint_ a)
 
 -- | Add a MountPoint component to a node
-foreign import javascript unsafe "new famous.components.MountPoint($1)"
+foreign import javascript unsafe "new window.famous.components.MountPoint($1)"
   fms_addMountPoint :: Node a -> IO (MountPoint ())
 
 addMountPoint = fms_addMountPoint

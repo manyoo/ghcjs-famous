@@ -13,7 +13,7 @@ data Position_ a
 type Position a = JSRef (Position_ a)
 
 -- | Add a new Position component to a node
-foreign import javascript unsafe "new famous.components.Position($1)"
+foreign import javascript unsafe "new window.famous.components.Position($1)"
   fms_addPosition :: Node a -> IO (Position ())
 
 addPosition = fms_addPosition

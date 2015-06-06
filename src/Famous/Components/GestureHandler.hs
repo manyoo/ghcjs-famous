@@ -36,7 +36,7 @@ instance ToJSRef GestureOption where
     return o
 
 -- | Component to manage gesture events. Will track 'pinch', 'rotate', 'tap', and 'drag' events, on an as-requested basis.
-foreign import javascript unsafe "$r = new famous.components.GestureHandler($1, $2)"
+foreign import javascript unsafe "$r = new window.famous.components.GestureHandler($1, $2)"
   fms_newGestureHandler :: Node a -> JSRef b -> IO (GestureHandler ())
 
 newGestureHandler :: Node a -> [GestureOption] -> IO (GestureHandler ())

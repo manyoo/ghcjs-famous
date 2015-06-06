@@ -14,7 +14,7 @@ type Opacity = JSRef Opacity_
 
 
 -- | Add a new Opacity component to a node
-foreign import javascript unsafe "new famous.components.Opacity($1)"
+foreign import javascript unsafe "new window.famous.components.Opacity($1)"
   fms_addOpacity :: Node a -> IO Opacity
 
 addOpacity = fms_addOpacity

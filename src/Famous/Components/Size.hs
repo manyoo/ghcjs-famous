@@ -14,7 +14,7 @@ data Size_ a
 type Size a = JSRef (Size_ a)
 
 -- | Add a Size component to a node
-foreign import javascript unsafe "new famous.components.Size($1)"
+foreign import javascript unsafe "new window.famous.components.Size($1)"
   fms_addSize :: Node a -> IO (Size ())
 
 addSize = fms_addSize
