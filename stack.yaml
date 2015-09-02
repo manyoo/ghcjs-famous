@@ -1,0 +1,5 @@
+flags: {}
+packages:
+- '.'
+extra-deps: [] 
+resolver: ghcjs-0.1.0_ghc-7.10.2
