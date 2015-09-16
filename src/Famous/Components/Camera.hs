@@ -4,11 +4,12 @@ module Famous.Components.Camera where
 import GHCJS.Foreign
 import GHCJS.Types
 
+import Famous.Core.Basic
 import Famous.Core.Node
 
 data Camera_ a
 
-type Camera a = JSRef (Camera_ a)
+type Camera a = FamoObj (Camera_ a)
 
 -- | Camera is a component that is responsible for sending information
 --   to the renderer about where the camera is in the scene. This allows

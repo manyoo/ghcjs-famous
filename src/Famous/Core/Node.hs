@@ -9,7 +9,7 @@ import Famous.Core.Basic
 
 data Node_ a
 
-type Node a = JSRef (Node_ a)
+type Node a = FamoObj (Node_ a)
 
 
 -- | APIs for a Node object
@@ -84,21 +84,21 @@ setOpacity = fms_setOpacity
 
 -- | Sets the size mode being used for determining the nodes final width, height and depth
 foreign import javascript unsafe "($4).setSizeMode($1, $2, $3)"
-  fms_setSizeMode :: JSRef a -> JSRef a -> JSRef a -> Node b -> IO ()
+  fms_setSizeMode :: JSRef -> JSRef -> JSRef -> Node b -> IO ()
 
 setSizeMode :: SizeMode -> SizeMode -> SizeMode -> Node a -> IO ()
-setSizeMode x y z n = do xRef <- sm2Ref x
-                         yRef <- sm2Ref y
-                         zRef <- sm2Ref z
-                         fms_setSizeMode xRef yRef zRef n
-  where sm2Ref = toJSRef . sizeMode2Text
+setSizeMode x y z n = fms_setSizeMode xRef yRef zRef n
+  where sm2Ref = jsref . sizeMode2Text
+        xRef = sm2Ref x
+        yRef = sm2Ref y
+        zRef = sm2Ref z
 
 
 type NodeSize = [Double]
 
 -- | Returns the external size of the node
 foreign import javascript safe "($1).getSize()"
-  fms_getSize :: Node a -> JSRef b
+  fms_getSize :: Node a -> JSRef
 
 getSize :: Node a -> IO (Maybe NodeSize)
 getSize = fromJSRef . fms_getSize
@@ -106,21 +106,21 @@ getSize = fromJSRef . fms_getSize
 
 -- | Returns the current proportional size
 foreign import javascript safe "($1).getProportationalSize()"
-  fms_getProportionalSize :: Node a -> JSRef b
+  fms_getProportionalSize :: Node a -> JSRef
 
 getProportionalSize :: Node a -> IO (Maybe NodeSize)
 getProportionalSize = fromJSRef . fms_getProportionalSize
 
 -- | Returns the differential size of the node
 foreign import javascript safe "($1).getDifferentialSize()"
-  fms_getDifferentialSize :: Node a -> JSRef b
+  fms_getDifferentialSize :: Node a -> JSRef
 
 getDifferentialSize :: Node a -> IO (Maybe NodeSize)
 getDifferentialSize = fromJSRef . fms_getDifferentialSize
 
 -- | Returns the absolute size of the node
 foreign import javascript safe "($1).getAbsoluteSize()"
-  fms_getAbsoluteSize :: Node a -> JSRef b
+  fms_getAbsoluteSize :: Node a -> JSRef
 
 getAbsoluteSize :: Node a -> IO (Maybe NodeSize)
 getAbsoluteSize = fromJSRef . fms_getAbsoluteSize
@@ -129,7 +129,7 @@ getAbsoluteSize = fromJSRef . fms_getAbsoluteSize
 -- Note that the render size is asynchronous (will always be one frame behind)
 -- and needs to be explicitely calculated by setting the proper size mode.
 foreign import javascript safe "($1).getRenderSize()"
-  fms_getRenderSize :: Node a -> JSRef b
+  fms_getRenderSize :: Node a -> JSRef
 
 getRenderSize :: Node a -> IO (Maybe NodeSize)
 getRenderSize = fromJSRef . fms_getRenderSize
@@ -137,7 +137,7 @@ getRenderSize = fromJSRef . fms_getRenderSize
 
 -- | Retrieves all children of the current node.
 foreign import javascript unsafe "($1).getChildren()"
-  fms_getChildren :: Node a -> JSRef b
+  fms_getChildren :: Node a -> JSRef
 
 getChildren :: Node a -> IO (Maybe [Node ()])
 getChildren = fromJSRef . fms_getChildren
@@ -145,7 +145,7 @@ getChildren = fromJSRef . fms_getChildren
 
 -- | Retrieves the parent of the current node. Unmounted nodes do not have a parent node.
 foreign import javascript unsafe "($1).getParent()"
-  fms_getParent :: Node a -> JSRef b
+  fms_getParent :: Node a -> JSRef
 
 getParent :: Node a -> IO (Maybe (Node ()))
 getParent = fromJSRef . fms_getParent
@@ -173,28 +173,28 @@ getOpacity = fms_getNodeOpacity
 
 -- | Determines the node's previously set mount point.
 foreign import javascript safe "($1).getMountPoint()"
-  fms_getMountPoint :: Node a -> JSRef b
+  fms_getMountPoint :: Node a -> JSRef
 
 getMountPoint :: Node a -> IO (Maybe [Double])
 getMountPoint = fromJSRef . fms_getMountPoint
 
 -- | Determines the node's previously set align.
 foreign import javascript safe "($1).getAlign()"
-  fms_getAlign :: Node a -> JSRef b
+  fms_getAlign :: Node a -> JSRef
 
 getAlign :: Node a -> IO (Maybe [Double])
 getAlign = fromJSRef . fms_getAlign
 
 -- | Determines the node's previously set origin.
 foreign import javascript safe "($1).getOrigin()"
-  fms_getOrigin :: Node a -> JSRef b
+  fms_getOrigin :: Node a -> JSRef
 
 getOrigin :: Node a -> IO (Maybe [Double])
 getOrigin = fromJSRef . fms_getOrigin
 
 -- | Determines the node's previously set position.
 foreign import javascript safe "($1).getPosition()"
-  fms_getPosition :: Node a -> JSRef b
+  fms_getPosition :: Node a -> JSRef
 
 getPosition :: Node a -> IO (Maybe [Double])
 getPosition = fromJSRef . fms_getPosition
@@ -202,7 +202,7 @@ getPosition = fromJSRef . fms_getPosition
 
 -- | Returns the node's current rotation
 foreign import javascript safe "($1).getRotation()"
-  fms_getRotation :: Node a -> JSRef b
+  fms_getRotation :: Node a -> JSRef
 
 getRotation :: Node a -> IO (Maybe [Double])
 getRotation = fromJSRef . fms_getRotation

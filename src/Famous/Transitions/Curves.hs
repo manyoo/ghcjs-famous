@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Famous.Transitions.Curves where
 
-import Data.Text
+import qualified JavaScript.Object as Obj
+import Data.JSString
 
 import GHCJS.Foreign
 import GHCJS.Types
@@ -46,44 +47,44 @@ data CurveType = CvLinear
                | CvFlat
 
 
-curveType2Text :: CurveType -> Text
-curveType2Text CvLinear        = "linear"
-curveType2Text CvEaseIn        = "easeIn"
-curveType2Text CvEaseOut       = "easeOut"
-curveType2Text CvEaseInOut     = "easeInOut"
-curveType2Text CvEaseOutBounce = "easeOutBounce"
-curveType2Text CvSpring        = "spring"
-curveType2Text CvInQuad        = "inQuad"
-curveType2Text CvOutQuad       = "outQuad"
-curveType2Text CvInOutQuad     = "inOutQuad"
-curveType2Text CvInCubic       = "inCubic"
-curveType2Text CvOutCubic      = "outCubic"
-curveType2Text CvInOutCubic    = "inOutCubic"
-curveType2Text CvInQuart       = "inQuart"
-curveType2Text CvOutQuart      = "outQuart"
-curveType2Text CvInOutQuart    = "inOutQuart"
-curveType2Text CvInQuint       = "inQuint"
-curveType2Text CvOutQuint      = "outQuint"
-curveType2Text CvInOutQuint    = "inOutQuint"
-curveType2Text CvInSine        = "inSine"
-curveType2Text CvOutSine       = "outSine"
-curveType2Text CvInOutSine     = "inOutSine"
-curveType2Text CvInExpo        = "inExpo"
-curveType2Text CvOutExpo       = "outExpo"
-curveType2Text CvInOutExpo     = "inOutExpo"
-curveType2Text CvInCirc        = "inCirc"
-curveType2Text CvOutCirc       = "outCirc"
-curveType2Text CvInOutCirc     = "inOutCirc"
-curveType2Text CvInElastic     = "inElastic"
-curveType2Text CvOutElastic    = "outElastic"
-curveType2Text CvInOutElastic  = "inOutElastic"
-curveType2Text CvInBack        = "inBack"
-curveType2Text CvOutBack       = "outBack"
-curveType2Text CvInOutBack     = "inOutBack"
-curveType2Text CvInBounce      = "inBounce"
-curveType2Text CvOutBounce     = "outBounce"
-curveType2Text CvInOutBounce   = "inOutBounce"
-curveType2Text CvFlat          = "flat"
+curveType2JSString :: CurveType -> JSString
+curveType2JSString CvLinear        = "linear"
+curveType2JSString CvEaseIn        = "easeIn"
+curveType2JSString CvEaseOut       = "easeOut"
+curveType2JSString CvEaseInOut     = "easeInOut"
+curveType2JSString CvEaseOutBounce = "easeOutBounce"
+curveType2JSString CvSpring        = "spring"
+curveType2JSString CvInQuad        = "inQuad"
+curveType2JSString CvOutQuad       = "outQuad"
+curveType2JSString CvInOutQuad     = "inOutQuad"
+curveType2JSString CvInCubic       = "inCubic"
+curveType2JSString CvOutCubic      = "outCubic"
+curveType2JSString CvInOutCubic    = "inOutCubic"
+curveType2JSString CvInQuart       = "inQuart"
+curveType2JSString CvOutQuart      = "outQuart"
+curveType2JSString CvInOutQuart    = "inOutQuart"
+curveType2JSString CvInQuint       = "inQuint"
+curveType2JSString CvOutQuint      = "outQuint"
+curveType2JSString CvInOutQuint    = "inOutQuint"
+curveType2JSString CvInSine        = "inSine"
+curveType2JSString CvOutSine       = "outSine"
+curveType2JSString CvInOutSine     = "inOutSine"
+curveType2JSString CvInExpo        = "inExpo"
+curveType2JSString CvOutExpo       = "outExpo"
+curveType2JSString CvInOutExpo     = "inOutExpo"
+curveType2JSString CvInCirc        = "inCirc"
+curveType2JSString CvOutCirc       = "outCirc"
+curveType2JSString CvInOutCirc     = "inOutCirc"
+curveType2JSString CvInElastic     = "inElastic"
+curveType2JSString CvOutElastic    = "outElastic"
+curveType2JSString CvInOutElastic  = "inOutElastic"
+curveType2JSString CvInBack        = "inBack"
+curveType2JSString CvOutBack       = "outBack"
+curveType2JSString CvInOutBack     = "inOutBack"
+curveType2JSString CvInBounce      = "inBounce"
+curveType2JSString CvOutBounce     = "outBounce"
+curveType2JSString CvInOutBounce   = "inOutBounce"
+curveType2JSString CvFlat          = "flat"
 
 
 data Curve = Curve {
@@ -94,18 +95,18 @@ data Curve = Curve {
 
 instance ToJSRef Curve where
   toJSRef c = do
-    o <- newObj
-    
-    let dk = toJSString ("duration" :: Text)
-        ck = toJSString ("curve" :: Text)
-        
+    o <- Obj.create
+
+    let dk = "duration"
+        ck = "curve"
+
     d <- toJSRef $ duration c
-    setProp dk d o
-    
-    ct <- toJSRef $ curveType2Text $ curveType c
-    setProp ck ct o
-    
-    return o
+    Obj.setProp dk d o
+
+    let ct = jsref $ curveType2JSString $ curveType c
+    Obj.setProp ck ct o
+
+    return $ jsref o
 
 
 -- | default curve, used to create new curves

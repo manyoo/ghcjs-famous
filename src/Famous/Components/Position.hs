@@ -4,13 +4,15 @@ module Famous.Components.Position where
 import GHCJS.Foreign
 import GHCJS.Types
 import GHCJS.Marshal
+import GHCJS.Foreign.Callback
 
+import Famous.Core.Basic
 import Famous.Core.Node
 import Famous.Transitions.Curves
 
 data Position_ a
 
-type Position a = JSRef (Position_ a)
+type Position a = FamoObj (Position_ a)
 
 -- | Add a new Position component to a node
 foreign import javascript unsafe "new window.famous.components.Position($1)"
@@ -42,13 +44,13 @@ foreign import javascript safe "($1).isActive()"
 
 isActive = fms_isActive
 
-mkCallback = syncCallback AlwaysRetain True
+mkCallback = syncCallback ContinueAsync
 
 -- | set the X position with parameters
 foreign import javascript unsafe "($3).setX($1, $2)"
-  fms_setXCurve :: Double -> JSRef Curve -> Position a -> IO ()
+  fms_setXCurve :: Double -> FamoObj Curve -> Position a -> IO ()
 foreign import javascript unsafe "($4).setX($1, $2, $3)"
-  fms_setXCurveCb :: Double -> JSRef Curve -> JSFun (IO ()) -> Position a -> IO ()
+  fms_setXCurveCb :: Double -> FamoObj Curve -> Callback (IO ()) -> Position a -> IO ()
 
 setX :: Double -> Curve -> Maybe (IO ()) -> Position a -> IO ()
 setX x c Nothing p = do jsc <- toJSRef c
@@ -59,9 +61,9 @@ setX x c (Just f) p = do jsc <- toJSRef c
 
 -- | set the Y position with parameters
 foreign import javascript unsafe "($3).setY($1, $2)"
-  fms_setYCurve :: Double -> JSRef Curve -> Position a -> IO ()
+  fms_setYCurve :: Double -> FamoObj Curve -> Position a -> IO ()
 foreign import javascript unsafe "($4).setY($1, $2, $3)"
-  fms_setYCurveCb :: Double -> JSRef Curve -> JSFun (IO ()) -> Position a -> IO ()
+  fms_setYCurveCb :: Double -> FamoObj Curve -> Callback (IO ()) -> Position a -> IO ()
 
 setY :: Double -> Curve -> Maybe (IO ()) -> Position a -> IO ()
 setY y c Nothing p = do jsc <- toJSRef c
@@ -72,9 +74,9 @@ setY y c (Just f) p = do jsc <- toJSRef c
 
 -- | set the Z position with parameters
 foreign import javascript unsafe "($3).setZ($1, $2)"
-  fms_setZCurve :: Double -> JSRef Curve -> Position a -> IO ()
+  fms_setZCurve :: Double -> FamoObj Curve -> Position a -> IO ()
 foreign import javascript unsafe "($4).setZ($1, $2, $3)"
-  fms_setZCurveCb :: Double -> JSRef Curve -> JSFun (IO ()) -> Position a -> IO ()
+  fms_setZCurveCb :: Double -> FamoObj Curve -> Callback (IO ()) -> Position a -> IO ()
 
 setZ :: Double -> Curve -> Maybe (IO ()) -> Position a -> IO ()
 setZ z c Nothing p = do jsc <- toJSRef c
@@ -86,9 +88,9 @@ setZ z c (Just f) p = do jsc <- toJSRef c
 
 -- | set the x, y, z values
 foreign import javascript unsafe "($5).set($1, $2, $3, $4)"
-  fms_setCurve :: Double -> Double -> Double -> JSRef Curve -> Position a -> IO ()
+  fms_setCurve :: Double -> Double -> Double -> FamoObj Curve -> Position a -> IO ()
 foreign import javascript unsafe "($6).set($1, $2, $3, $4, $5)"
-  fms_setCurveCb :: Double -> Double -> Double -> JSRef Curve -> JSFun (IO ()) -> Position a -> IO ()
+  fms_setCurveCb :: Double -> Double -> Double -> FamoObj Curve -> Callback (IO ()) -> Position a -> IO ()
 
 set :: Double -> Double -> Double -> Curve -> Maybe (IO ()) -> Position a -> IO ()
 set x y z c Nothing p = do jsc <- toJSRef c

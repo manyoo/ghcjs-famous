@@ -18,7 +18,7 @@ import Famous.Core.Scene
 data Engine_
 
 -- | FamousEngine type for the corresponding Javascript object
-type FamousEngine = JSRef Engine_
+type FamousEngine = FamoObj Engine_
 
 
 -- | js API for creating new engine
@@ -35,9 +35,9 @@ famousEngine = fms_famousEngine
 
 -- | An init script that initializes the FamousEngine with options or default parameters.
 foreign import javascript unsafe "($1).init($2)"
-  fms_engineInit :: FamousEngine -> JSRef opt -> IO ()
+  fms_engineInit :: FamousEngine -> JSRef -> IO ()
 
-engineInit :: (ToJSString k, ToJSRef v) => FamousEngine -> Options k v -> IO ()
+engineInit :: ToJSRef v => FamousEngine -> Options v -> IO ()
 engineInit e opt = fms_engineInit e =<< toJSRef opt
 
 
@@ -48,6 +48,6 @@ foreign import javascript unsafe "($1).createScene()"
 foreign import javascript unsafe "($2).createScene($1)"
   fms_createScene :: JSString -> FamousEngine -> IO (Scene ())
 
-createScene :: (ToJSString a) => Maybe a -> FamousEngine -> IO (Scene ())
+createScene :: Maybe JSString -> FamousEngine -> IO (Scene ())
 createScene Nothing e = fms_createNewScene e
-createScene (Just s) e = fms_createScene (toJSString s) e
+createScene (Just s) e = fms_createScene s e

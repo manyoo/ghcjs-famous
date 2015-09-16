@@ -1,21 +1,29 @@
-{-# LANGUAGE JavaScriptFFI, TypeSynonymInstances, OverloadedStrings #-}
+{-# LANGUAGE JavaScriptFFI, TypeSynonymInstances, OverloadedStrings, FlexibleInstances #-}
 module Famous.Core.Basic where
 
 import GHCJS.Foreign
 import GHCJS.Marshal
+import GHCJS.Types
+import qualified JavaScript.Object as Obj
+import JavaScript.Object.Internal as Obj
 import qualified Data.Map as Map
 import Control.Monad (forM_)
 import Data.Text
 
-type Options k v = Map.Map k v
+import Data.JSString
+
+type FamoObj a = JSRef
 
 
-instance (ToJSString k, ToJSRef v) => ToJSRef (Options k v) where
+type Options v = Map.Map JSString v
+
+
+instance ToJSRef v => ToJSRef (Options v) where
   toJSRef m = do
-    o <- newObj
+    o <- Obj.create
     forM_ (Map.toList m) $ \(k, v) -> do v' <- toJSRef v
-                                         setProp (toJSString k) v' o
-    return o
+                                         Obj.setProp k v' o
+    return $ jsref o
 
 
 -- | Size Mode
@@ -24,7 +32,7 @@ data SizeMode = SMAbsolute
               | SMRender
 
 
-sizeMode2Text :: SizeMode -> Text
+sizeMode2Text :: SizeMode -> JSString
 sizeMode2Text SMAbsolute = "absolute"
 sizeMode2Text SMRelative = "relative"
 sizeMode2Text SMRender   = "render"
